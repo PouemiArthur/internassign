@@ -63,22 +63,21 @@ const setAvailability = async (req, res, next) => {
   }
 };
 
+// This is the new API made by me
 const updateAvailability = async (req, res, next) => {
   try {
     const { availabilityId } = req.params;
     const { startTime, endTime } = req.body;
 
-    // Find the availability and make sure it belongs to this professor
     const availability = await Availability.findOne({
       _id: availabilityId,
-      professorId: req.user.id, // Ensure that professorId is coming from req.user._id
+      professorId: req.user.id,
     });
 
     if (!availability) {
       return next(new HttpError("Availability slot not found", 404));
     }
 
-    // Check for a conflicting slot (excluding this one) if times are changing
     if (startTime || endTime) {
       const newStart = startTime ? new Date(startTime) : availability.startTime;
       const newEnd = endTime ? new Date(endTime) : availability.endTime;
@@ -104,7 +103,7 @@ const updateAvailability = async (req, res, next) => {
     const formattedEndTime = moment.utc(availability.endTime).format('MMMM Do YYYY, h:mm:ss a');
 
     res.status(200).json({
-      message: "Availability updated successfully",
+      message: "this availability was updated successfully",
       availability: {
         ...availability.toObject(),
         startTime: formattedStartTime,
@@ -112,8 +111,8 @@ const updateAvailability = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log(error); // Log error for better debugging
-    return next(new HttpError("Updating availability failed", 500));
+    console.log(error);
+    return next(new HttpError("Availability update failed", 500));
   }
 };
 
