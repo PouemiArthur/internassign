@@ -10,7 +10,7 @@ router.post("/availability", authMiddleware,profMiddleware, setAvailability);
 
 // Route to cancel appointments between professor and student - Only accessible to professors
 
-router.patch("/availablility/:availabilityid", authMiddleware, profMiddleware, updateAvailability);
+router.patch("/availability/:availabilityid", authMiddleware, profMiddleware, updateAvailability);
 router.patch("/cancel-appointments/:studentId", authMiddleware, profMiddleware, cancelAppointments);
 
 export default router;

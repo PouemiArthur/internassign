@@ -63,14 +63,14 @@ const setAvailability = async (req, res, next) => {
   }
 };
 
-// This is the new API made by me
+// This is the new API edited by me for availability time modification
 const updateAvailability = async (req, res, next) => {
   try {
-    const { availabilityId } = req.params;
+    const { availabilityid } = req.params;
     const { startTime, endTime } = req.body;
 
     const availability = await Availability.findOne({
-      _id: availabilityId,
+      _id: availabilityid,
       professorId: req.user.id,
     });
 
@@ -83,7 +83,7 @@ const updateAvailability = async (req, res, next) => {
       const newEnd = endTime ? new Date(endTime) : availability.endTime;
 
       const conflict = await Availability.findOne({
-        _id: { $ne: availabilityId },
+        _id: { $ne: availabilityid },
         professorId: req.user.id,
         startTime: newStart,
         endTime: newEnd,
